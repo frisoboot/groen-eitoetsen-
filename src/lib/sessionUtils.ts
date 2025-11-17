@@ -1,22 +1,25 @@
-// Importeer next/headers voor server cookies
-import { cookies } from 'next/headers';
+// Importeer next/headers alleen voor server functions
+import { cookies as serverCookies } from 'next/headers';
 
-// Set admin session
+// Voor client-side, export aparte functions
+import Cookies from 'js-cookie';
+
+// Server: Set admin session
 export function setAdminSession() {
-  cookies().set('isAdmin', 'true', { httpOnly: true, path: '/' });
+  serverCookies().set('isAdmin', 'true', { httpOnly: true, path: '/' });
 }
 
-// Check admin session
+// Server: Check admin session
 export function isAdmin() {
-  return cookies().get('isAdmin')?.value === 'true';
+  return serverCookies().get('isAdmin')?.value === 'true';
 }
 
-// Set student name session
+// Client/Server: Set student session (gebruik Cookies voor client)
 export function setStudentSession(name: string) {
-  cookies().set('studentName', name, { path: '/' });
+  Cookies.set('studentName', name, { path: '/' });
 }
 
-// Get student name
+// Client/Server: Get student name
 export function getStudentName() {
-  return cookies().get('studentName')?.value;
+  return Cookies.get('studentName');
 }

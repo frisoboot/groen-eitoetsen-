@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { generateTest } from '@/lib/openaiUtils';
-import pdf from 'pdf-parse';
+import pdfParse from 'pdf-parse/lib/pdf-parse.js';
 
 export async function POST(req: NextRequest) {
   const { prompt, pdfUrl } = await req.json();
@@ -12,7 +12,7 @@ export async function POST(req: NextRequest) {
     isPDF = true;
     const response = await fetch(pdfUrl);
     const buffer = await response.arrayBuffer();
-    const parsed = await pdf(buffer);
+    const parsed = await pdfParse(buffer);
     content = parsed.text;
   }
 
